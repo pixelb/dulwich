@@ -56,9 +56,11 @@ except ImportError:
 try:
     import urllib2
     import urlparse
+    from urllib2 import splituser
 except ImportError:
     import urllib.request as urllib2
     import urllib.parse as urlparse
+    from urllib.parse import splituser
 
 import dulwich
 from dulwich.errors import (
@@ -1223,7 +1225,7 @@ class HttpGitClient(GitClient):
 
     @classmethod
     def from_parsedurl(cls, parsedurl, **kwargs):
-        auth, host = urllib2.splituser(parsedurl.netloc)
+        auth, host = splituser(parsedurl.netloc)
         password = parsedurl.password
         if password is not None:
             password = urlunquote(password)
